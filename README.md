@@ -1,2 +1,2 @@
-# NL2SQL Debugger
-NonaBench: A Nine-Dimensional Evaluation Framework for NL2SQL
+# NL2SQL DEBUGGER
+Fixing the IR-level to improve NL2SQL

@@ -1,0 +1,81 @@
+%% Related Work Section — LakeProbe
+%% Covers three categories of existing HITL NL2SQL approaches
+%%
+%% Distinction table: where each method intervenes in the pipeline
+%%
+%% | When                          | What happens                                      | Examples                              |
+%% |-------------------------------|---------------------------------------------------|---------------------------------------|
+%% | During translation            | Impossible with current black-box LLMs            | (none)                                |
+%% | Post-generation, no human     | Generate SQL -> execute -> feedback -> regenerate  | CycleSQL, DIN-SQL, DAIL-SQL           |
+%% | Post-generation, with human   | Generate SQL -> show to user -> user corrects      | BIRD-INTERACT, SPLASH, STEPS          |
+%% | Pre-generation, NL dialogue   | Ask user NL questions -> then generate SQL         | CoSQL, PRACTIQ, EIG-SQL, Sphinteract  |
+%% | Pre-generation, semi-struct.  | Generate IR -> user reviews IR -> generate SQL     | LakeProbe (novel)                     |
+
+\section{Related Work}
+\label{sec:related}
+
+A natural way to address query intent ambiguity in NL-driven data analysis is to introduce user intervention. Existing approaches can be grouped into three categories based on where in the pipeline intervention occurs.
+
+\vspace{.25em}\noindent\textbf{Pre-translation NL clarification.}
+Several works ask users to clarify query intent through natural language dialogue before any SQL is generated. CoSQL~\cite{yu-etal-2019-cosql} models multi-turn conversations where the system asks clarifying questions and the user responds in natural language. PRACTIQ~\cite{dong2025practiq} structures each interaction as a four-turn dialogue covering ambiguous and unanswerable queries. EIG-SQL~\cite{qiu2025eig} selects clarification questions using information-theoretic principles to maximally reduce uncertainty over candidate SQL interpretations. Sphinteract~\cite{zhao2025sphinteract} generates an initial SQL query, executes it, and then asks NL clarification questions if the user is dissatisfied with the result. AmbiSQL~\cite{ding2025ambisql} automatically detects ambiguities in the user query and guides users through multiple-choice questions to resolve them before SQL generation. While effective, all of these methods operate at the unstructured NL level, which risks introducing further ambiguity across turns.
+
+\vspace{.25em}\noindent\textbf{Execution-guided retry.}
+A second line of work generates SQL, executes it, and uses execution errors as feedback to regenerate the query. DIN-SQL~\cite{pourreza2023dinsql} and DAIL-SQL~\cite{gao2023dailsql} apply this try-retry-regenerate strategy with LLM prompting on standard benchmarks. CycleSQL~\cite{fan2025cyclesql} grounds the feedback loop in data-based natural language explanations of query results, creating a self-contained refinement cycle without human involvement. BIRD-INTERACT~\cite{huo2025birdinteract} extends this to agentic multi-turn settings where the number of retries is hard to bound. These methods can consume unbounded tokens and require no SQL expertise from users, but provide no transparency into the reasoning process.
+
+\vspace{.25em}\noindent\textbf{Post-generation SQL-level debugging.}
+A third category generates SQL and then provides mechanisms for users to inspect or correct it. SPLASH~\cite{elgohary-etal-2020-speak} asks users to provide free-form NL feedback on an incorrect SQL query. STEPS~\cite{tian2024steps} decomposes the generated SQL into editable step-by-step NL explanations, allowing users to locate and correct errors without writing SQL directly. DIY (Narechania et al.) enables users to select alternative SQL sub-expressions via dropdowns. All of these methods intervene after the SQL is already generated; the LLM's translation process itself remains a black box.
+
+\vspace{.25em}\noindent\textbf{Summary.}
+None of the existing methods intervene during the LLM's NL-to-SQL translation process. {\sf LakeProbe} takes a different approach by making the query intent explicit as a semi-structured intermediate representation (IR) before SQL generation, allowing non-expert users to review and correct it without SQL knowledge. This positions {\sf LakeProbe} between the unstructured NL level and the structured SQL level, combining the accessibility of NL clarification with the precision of structured correction. For a comprehensive survey of NL2SQL methods, we refer readers to~\cite{liu2024nl2sqlsurvey,luo2025nl2sqlsurvey}.
+
+
+%% ============================================================
+%% BibTeX Entries for new references added in this file
+%% ============================================================
+
+%% --- Sphinteract (VLDB 2025) ---
+%% @article{zhao2025sphinteract,
+%%   author    = {Fuheng Zhao and Shaleen Deep and Fotis Psallidas and
+%%                Avrilia Floratou and Divyakant Agrawal and Amr El Abbadi},
+%%   title     = {{Sphinteract}: Resolving Ambiguities in {NL2SQL} Through User Interaction},
+%%   journal   = {Proceedings of the VLDB Endowment},
+%%   volume    = {18},
+%%   number    = {4},
+%%   pages     = {1145--1158},
+%%   year      = {2025},
+%%   url       = {https://www.vldb.org/pvldb/vol18/p1145-zhao.pdf}
+%% }
+
+%% --- CycleSQL (ICDE 2025) ---
+%% @inproceedings{fan2025cyclesql,
+%%   author    = {Yuankai Fan and others},
+%%   title     = {Grounding Natural Language to {SQL} Translation with Data-Based Self-Explanations},
+%%   booktitle = {Proceedings of the 41st IEEE International Conference on Data Engineering (ICDE)},
+%%   year      = {2025},
+%%   url       = {https://arxiv.org/abs/2411.02948}
+%% }
+
+%% --- Natural Language to SQL: State of the Art and Open Problems (VLDB 2025) ---
+%% @article{luo2025nl2sqlsurvey,
+%%   author    = {Yuyu Luo and Guoliang Li and Ju Fan and Chengliang Chai and Nan Tang},
+%%   title     = {Natural Language to {SQL}: State of the Art and Open Problems},
+%%   journal   = {Proceedings of the VLDB Endowment},
+%%   volume    = {18},
+%%   number    = {12},
+%%   pages     = {5466--5471},
+%%   year      = {2025},
+%%   doi       = {10.14778/3750601.3750696}
+%% }
+
+%% --- AmbiSQL (arXiv 2025) ---
+%% @article{ding2025ambisql,
+%%   author    = {Zhongjun Ding and Yin Lin and Tianjing Zeng and
+%%                Rong Zhu and Bolin Ding and Jingren Zhou},
+%%   title     = {{AmbiSQL}: Interactive Ambiguity Detection and Resolution for Text-to-{SQL}},
+%%   journal   = {arXiv preprint arXiv:2508.15276},
+%%   year      = {2025},
+%%   url       = {https://arxiv.org/abs/2508.15276}
+%% }
+
+%% --- A Survey of Text-to-SQL in the Era of LLMs ---
+%% Already cited as liu2024nl2sqlsurvey in the main paper.

@@ -1,0 +1,20 @@
+We make the following contributions in this paper.
+
+\begin{itemize}
+
+\item \textbf{Six-Dimensional Evaluation Framework.}
+We extend existing NL2SQL evaluation frameworks by categorizing the problem along six dimensions, namely schema quality, database scale, domain diversity, user prompt clarity, SQL complexity, and reflection mode. In particular, the prompt clarity and reflection mode dimensions have been long overlooked by prior work, despite their critical role in determining system behavior and user experience in real-world deployments.
+
+\item \textbf{Systematic Literature Review and Categorization.}
+We conduct a comprehensive review of NL2SQL works published through 2026 and categorize them according to the six proposed dimensions. This produces a structured taxonomy that serves as a reference for researchers to understand where existing methods stand and where gaps remain.
+
+\item \textbf{Benchmark Construction.}
+We dedicate substantial human effort to prepare datasets and query workloads aligned with the six dimensions, combining existing benchmarks with handcrafted datasets to cover underrepresented combinations. The resulting benchmark is fully documented and publicly released to ensure reproducibility.
+
+\item \textbf{Controlled Experiments with Aligned Settings.}
+We conduct experiments on representative existing NL2SQL methods under the newly constructed benchmark. Although some individual dimensions have been studied before, prior evaluations use misaligned settings that prevent fair comparison. Our benchmark provides a unified and controlled experimental environment, enabling direct comparison across methods and dimension combinations for the first time.
+
+\item \textbf{Findings and Research Directions.}
+Based on our experiments, we identify two systematic gaps in existing NL2SQL research that are exposed by the proposed testbed. We further provide concrete design guidelines and open research directions to address these gaps, aiming to inspire researchers to rethink the NL2SQL problem from new perspectives.
+
+\end{itemize}
